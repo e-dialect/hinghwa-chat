@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "6300:6333"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
+
+  app:
+    build: .
+    depends_on:
+      - qdrant
+    command: python src/load_px_words.py
+  # ui:
+  #   build: .
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - qdrant
+  #   env_file:
+  #     - .env
